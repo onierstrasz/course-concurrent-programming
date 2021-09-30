@@ -1,0 +1,11 @@
+
+ACTUATOR
+	=(command->ACTION),
+ACTION
+	=(respond->ACTUATOR 	 
+	 |command->ERROR).
+
+property SAFE_ACTUATOR 
+	= (command
+	   -> respond
+	   -> SAFE_ACTUATOR).

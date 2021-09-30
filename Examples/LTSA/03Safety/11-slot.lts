@@ -1,0 +1,16 @@
+const N = 2
+
+Slot = (put[v:0..N] -> get[v] -> Slot).
+
+/*
+Producer = Producer[0],
+Producer[i:0..N]
+	= (when (i<N) put[i]->Producer[i+1]
+	  |when (i==N) put[i]->Producer[0]).
+*/
+
+Producer = (put[0] -> put[1] -> put[2] -> Producer).
+
+Consumer = (get[x:0..N]->Consumer).
+
+||Chain = (Producer||Slot||Consumer).

@@ -1,0 +1,17 @@
+const N = 3
+range T = 0..N
+set VarAlpha = {read[T],write[T]}
+
+VAR      = VAR[0],
+VAR[u:T] = ( read[u]   ->VAR[u] 
+           | write[v:T]->VAR[v]).
+
+LOCK = (acquire->release->LOCK).
+
+INC = (acquire -> read[v:0..N-1] -> write[v+1] -> release -> STOP)+VarAlpha.
+
+
+// ||SeqInc2 = (VAR || INC || LOCK).
+
+||ParInc2 = ({a,b}::VAR || {a,b}::LOCK || a:INC || b:INC).
+

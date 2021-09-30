@@ -1,0 +1,26 @@
+// Illustrates why safety properties must be deterministic.
+
+
+P  = (a -> P1 | a -> P2),
+P1 = (b -> P),
+P2 = (c -> P).
+
+
+// NB The compiler will reject this:
+
+property PropertyP = (a->b->PropertyP|a->c->PropertyP).
+
+// Same as:
+
+/*
+PropertyP = P,
+P  = (a -> P1 | a -> P2 |{b,c} -> ERROR),
+P1 = (b -> P | {a,c} -> ERROR),
+P2 = (c -> P | {a,b} -> ERROR).
+*/
+
+||S = (P || PropertyP).
+
+
+// This is what we should specify instead:
+// property P = (a ->{b,c}->P).

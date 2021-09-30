@@ -1,0 +1,14 @@
+/*
+Competitor = ([1] -> [2] -> [3] -> [4] -> done -> STOP).
+||Tortoise = tortoise:Competitor.
+||Hare = hare:Competitor.
+||Test = (Tortoise||Hare).
+*/
+
+const N = 5
+Competitor = KM[1],
+KM[n:1..N] =
+	(when(n<N) [n] -> KM[n+1]
+	|when(n==N) done -> STOP).
+
+||Race5K = (tortoise:Competitor || hare:Competitor).

@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<project name="CP Examples" default="all" basedir=".">
+
+	<property name="build" value="build"/>
+	<property name="clockjar" value="clock.jar"/>
+	<property name="version" value="1.5"/>
+	
+	<target name="all" depends="clockjar"/>
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="run" depends="clockjar">
+		<java jar="${clockjar}" fork="true"/>
+	</target>
+
+	<target name="clockjar" depends="init,clock">
+		<jar
+			basedir="${build}"
+			jarfile="${clockjar}"
+			manifest="src/clock/manifest-run"
+		/>
+	</target>
+
+	<target name="clock" depends="init">
+		<javac
+			source="${version}"
+			target="${version}"
+			srcdir="."
+			includes="src/clock/*.java"
+			destdir="${build}"
+		/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}"/>
+		<delete file="${clockjar}" />
+	</target>
+
+	<target name="bare" depends="clean">
+		<delete>
+			<fileset dir="." includes="*.jar,*/*/*.class"/>
+		</delete> 
+	</target>
+	
+	<!-- dummy target for eclipse build configuration -->
+	<target name="donothing"/>
+
+</project>

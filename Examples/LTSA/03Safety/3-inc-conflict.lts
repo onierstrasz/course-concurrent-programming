@@ -1,0 +1,20 @@
+const N = 3
+range T = 0..N
+set VarAlpha = {read[T],write[T]}
+
+Var      = Var[0],
+Var[u:T] = ( read[u]   ->Var[u] 
+           | write[v:T]->Var[v]).
+
+Inc = (read[v:0..N-1] -> write[v+1] -> STOP)+VarAlpha.
+// Inc = (read[v:0..N-1] -> write[v+1] -> STOP).
+
+
+||SeqInc = (Var || Inc).
+
+// ||ParInc = ({a,b}::Var || a:Inc || b:Inc).
+
+/*
+Inc2 = (read[v:0..N-2] -> write[v+2] -> STOP)+VarAlpha.
+||ParInc = ({a,b}::Var || a:Inc || b:Inc2).
+*/

@@ -1,0 +1,17 @@
+/** Concurrency: State Models and Java Programs
+ *             Jeff Magee and Jeff Kramer
+ *  
+ */
+
+TWOCOIN = (pick->COIN|pick->TRICK),
+TRICK   = (toss->heads->TRICK),
+COIN    = (toss->heads->COIN|toss->tails->COIN).
+
+/*
+This safety property exposes one key problem.
+property REPICK = (pick -> toss -> REPICK).
+*/
+
+progress HEADS = {heads}
+progress TAILS = {tails}
+progress HEADSorTAILS = {heads,tails}

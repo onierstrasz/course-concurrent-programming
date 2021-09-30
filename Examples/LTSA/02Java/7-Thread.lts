@@ -1,0 +1,8 @@
+Thread =
+	( start -> Runnable ),
+Runnable =
+	( yield -> Runnable
+	| {sleep, wait, blockio} -> NotRunnable
+	| stop -> STOP ),
+NotRunnable =
+	( {awake, notify, unblockio} -> Runnable ).

@@ -1,0 +1,50 @@
+
+range T = 1..2
+
+Var = Var[1],
+Var[u:T] =
+	( read[u]   ->Var[u]
+	| write[v:T]->Var[v]).
+
+set Bool = {true,false}
+
+BOOL(Init='false) = BOOL[Init],
+BOOL[b:Bool] =
+	( is[b] -> BOOL[b]
+	| setTo[x:Bool] -> BOOL[x]
+    ).
+
+P1 = ( enter1.setTo['true]
+	-> turn.write[2]
+	-> Gd1),
+Gd1 =
+	( enter2.is['false] -> CS1
+	| enter2.is['true] ->
+		( turn.read[1] -> CS1
+		| turn.read[2] -> CS1)),/* WRONG */
+	/*	| turn.read[2] -> Gd1)), */
+CS1 = ( a -> b
+	-> enter1.setTo['false]
+	-> P1).
+
+
+P2 = ( enter2.setTo['true]
+	-> turn.write[1]
+	-> Gd2),
+Gd2 =
+	( enter1.is['false] -> CS2
+	| enter1.is['true] ->
+		( turn.read[2] -> CS2
+		| turn.read[1] -> Gd2)),
+CS2 = ( c -> d
+	-> enter2.setTo['false]
+	-> P2).
+
+// ||Broken = (enter1:BOOL||enter2:BOOL||turn:Var||P1||P2)@{a,b,c,d}.
+
+||Broken = (enter1:BOOL||enter2:BOOL||turn:Var||P1||P2||Ok).
+
+Ok =	( a -> ( c -> ERROR | b -> Ok )
+		| c -> ( a -> ERROR | d -> Ok)).
+
+// ||Broken = (enter1:BOOL('false)||enter2:BOOL('false)||turn:Var||P1||P2||Ok).

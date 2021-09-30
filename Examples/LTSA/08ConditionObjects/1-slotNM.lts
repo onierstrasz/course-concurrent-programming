@@ -1,0 +1,16 @@
+const N = 2
+
+Slot = (put[v:0..N] -> get[v] -> Slot).
+
+ReplySlot =
+	( put[v:0..N] -> my.put[v] -> ack -> ReplySlot
+	| get -> my.get[v:0..N] -> ret[v] -> ReplySlot ).
+
+Producer = (put[0] -> ack -> put[1] -> ack -> put[2] -> ack -> Producer).
+
+Consumer = (get-> ret[x:0..N]->Consumer).
+
+
+||Chain = (Producer||ReplySlot||my:Slot||Consumer).
+
+progress CALLREPLY = {put[0..N],ack,get,ret[0..N]}

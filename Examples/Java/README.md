@@ -45,6 +45,6 @@ illustrate Nested Monitors and solution
 - ReadersWriters: ReadWriteDemo
 - Counter: BoundedCounterVOPT
 
-# 13. Architectural Styles
+# 12. Architectural Styles
 - Activeprimes: PrimeSieve -- primes as active objects
 - JavaSpaces: FibDemo -- compute Fibonacci numbers with a Tuple Space

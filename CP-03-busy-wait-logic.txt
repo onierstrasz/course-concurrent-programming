@@ -1,0 +1,50 @@
+Busy-Wait Protocol
+==================
+
+	process P1;
+		loop
+			enter1 := true; { wants to enter }
+			turn := "P2"; { but yields priority }
+			while enter2 and turn = "P2"
+				do skip;
+			Critical Section;
+			enter1 := false; { exits }
+			Non-critical Section;
+		end;
+	end;
+
+	process P2;
+		loop
+			enter2 := true;
+			turn := "P1";
+			while enter1 and turn = "P1"
+				do skip;
+			Critical Section;
+			enter2 := false;
+			Non-critical Section;
+		end;
+	end;
+
+Mutual exclusion:
+=================
+
+When P1 enters its CS, we know that enter1 = true and that either
+
+(1) enter2 = false, or
+(2) turn = "P1".
+
+(1) If enter2 = false, then P2 has entered its non-CS, will set enter2 =
+true and turn = "P1".  Since enter1 = true, it will then busy-wait till P1
+leaves its CS.
+
+(2) Else, if turn = "P1", then we know that P2 set turn = "P1" *after* P1
+set enter1 = true and turn = "P2".  So P2 must be busy-waiting!
+
+Fairness:
+=========
+
+If P1 is busy-waiting, then enter1 = true, enter2 = true and turn = "P2".  
+Eventually P2 will go around the loop and set turn = "P1", letting P1 
+proceed and forcing P2 to busy-wait.  Similarly, if P2 wants to get into 
+its CS, P1 will eventually let it do so, as long as its CS and non-CS 
+eventually terminate.

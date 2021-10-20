@@ -14,8 +14,9 @@ PHIL = (sitdown->right.get->left.get
 FORK = (get -> put -> FORK).
 
 ||DINERS(N=5)=
-  (PHIL0|| 
-   forall [i:1..N-1] 
+  (phil[0]:PHIL0
+  ||{phil[0].left,phil[1].right}::FORK
+  ||forall [i:1..N-1] 
    (phil[i]:PHIL 
    ||{phil[i].left,phil[((i-1)+N)%N].right}::FORK)).
 
